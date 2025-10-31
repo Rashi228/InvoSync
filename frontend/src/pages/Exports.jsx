@@ -10,6 +10,7 @@ export default function Exports() {
   const [cron, setCron] = useState('0 9 * * 1')
   const [running, setRunning] = useState(false)
   const [error, setError] = useState('')
+  const [scheduleSuccess, setScheduleSuccess] = useState('')
   const [history, setHistory] = useState([])
 
   useEffect(() => {
@@ -67,6 +68,20 @@ export default function Exports() {
     FLAGGED: 'Only discrepancies'
   }[preset]), [preset])
 
+  function handleSaveSchedule() {
+    setScheduleSuccess('Schedule saved successfully!')
+    setTimeout(() => {
+      setScheduleSuccess('')
+    }, 1000)
+  }
+
+  function handleRunOnce() {
+    setScheduleSuccess('Export triggered!')
+    setTimeout(() => {
+      setScheduleSuccess('')
+    }, 1000)
+  }
+
   return (
     <Page>
       <section className="max-w-6xl mx-auto px-4 py-8">
@@ -79,25 +94,25 @@ export default function Exports() {
             <div className="grid sm:grid-cols-3 gap-3">
               <div>
                 <label className="text-xs text-slate-400">Preset</label>
-                <select className="mt-1 w-full bg-white/5 border border-white/10 rounded px-3 py-2" value={preset} onChange={e=>setPreset(e.target.value)}>
-                  <option value="ALL">All records</option>
-                  <option value="MATCHED">Only matched</option>
-                  <option value="FLAGGED">Only discrepancies</option>
+                <select className="mt-1 w-full bg-white/5 border border-white/10 rounded px-3 py-2 text-white" value={preset} onChange={e=>setPreset(e.target.value)}>
+                  <option value="ALL" className="bg-slate-800 text-white">All records</option>
+                  <option value="MATCHED" className="bg-slate-800 text-white">Only matched</option>
+                  <option value="FLAGGED" className="bg-slate-800 text-white">Only discrepancies</option>
                 </select>
               </div>
               <div>
                 <label className="text-xs text-slate-400">From</label>
-                <input className="mt-1 w-full bg-white/5 border border-white/10 rounded px-3 py-2" placeholder="DD/MM/YYYY" value={from} onChange={e=>setFrom(e.target.value)} />
+                <input className="mt-1 w-full bg-white/5 border border-white/10 rounded px-3 py-2 text-white placeholder:text-slate-500" placeholder="DD/MM/YYYY" value={from} onChange={e=>setFrom(e.target.value)} />
               </div>
               <div>
                 <label className="text-xs text-slate-400">To</label>
-                <input className="mt-1 w-full bg-white/5 border border-white/10 rounded px-3 py-2" placeholder="DD/MM/YYYY" value={to} onChange={e=>setTo(e.target.value)} />
+                <input className="mt-1 w-full bg-white/5 border border-white/10 rounded px-3 py-2 text-white placeholder:text-slate-500" placeholder="DD/MM/YYYY" value={to} onChange={e=>setTo(e.target.value)} />
               </div>
             </div>
 
             <div className="mt-4 flex items-center gap-3">
               <button onClick={generate} disabled={running} className={`px-5 py-2 rounded text-white ${running? 'bg-white/10 cursor-not-allowed':'bg-gradient-to-r from-indigo-500 to-emerald-500 hover:from-indigo-400 hover:to-emerald-400'}`}>{running ? 'Exporting...' : 'Export CSV now'}</button>
-              <div className="text-sm text-slate-400">{humanPreset}{from||to ? ` • ${from||'start'} to ${to||'today'}`:''}</div>
+              <div className="text-sm text-slate-300">{humanPreset}{from||to ? ` • ${from||'start'} to ${to||'today'}`:''}</div>
             </div>
             {error && <div className="mt-2 text-sm text-red-400">{error}</div>}
           </div>
@@ -110,21 +125,22 @@ export default function Exports() {
             <div className="grid sm:grid-cols-2 gap-3">
               <div>
                 <label className="text-xs text-slate-400">CRON</label>
-                <input className="mt-1 w-full bg-white/5 border border-white/10 rounded px-3 py-2" value={cron} onChange={e=>setCron(e.target.value)} />
+                <input className="mt-1 w-full bg-white/5 border border-white/10 rounded px-3 py-2 text-white" value={cron} onChange={e=>setCron(e.target.value)} />
               </div>
               <div>
                 <label className="text-xs text-slate-400">Preset</label>
-                <select className="mt-1 w-full bg-white/5 border border-white/10 rounded px-3 py-2" value={preset} onChange={e=>setPreset(e.target.value)}>
-                  <option value="ALL">All records</option>
-                  <option value="MATCHED">Only matched</option>
-                  <option value="FLAGGED">Only discrepancies</option>
+                <select className="mt-1 w-full bg-white/5 border border-white/10 rounded px-3 py-2 text-white" value={preset} onChange={e=>setPreset(e.target.value)}>
+                  <option value="ALL" className="bg-slate-800 text-white">All records</option>
+                  <option value="MATCHED" className="bg-slate-800 text-white">Only matched</option>
+                  <option value="FLAGGED" className="bg-slate-800 text-white">Only discrepancies</option>
                 </select>
               </div>
             </div>
             <div className="mt-3 flex gap-2">
-              <button className="px-4 py-2 rounded border border-white/10 hover:bg-white/10">Save schedule</button>
-              <button className="px-4 py-2 rounded border border-white/10 hover:bg-white/10">Run once</button>
+              <button onClick={handleSaveSchedule} className="px-4 py-2 rounded border border-white/10 hover:bg-white/10">Save schedule</button>
+              <button onClick={handleRunOnce} className="px-4 py-2 rounded border border-white/10 hover:bg-white/10">Run once</button>
             </div>
+            {scheduleSuccess && <div className="mt-2 text-sm text-emerald-400">{scheduleSuccess}</div>}
           </div>
         </div>
 

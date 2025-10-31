@@ -61,11 +61,7 @@ export default function Dashboard() {
       await loadData()
       setProgress(100)
       setPoFile(null); setInvFile(null)
-      if (res && res.id) {
-        navigate(`/review/${res.id}`)
-      } else {
-        navigate('/records')
-      }
+      navigate('/records')
     } catch (e) {
       setErrorMsg(e?.message || 'Verification failed')
       setProgress(0)
