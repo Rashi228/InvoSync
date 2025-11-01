@@ -174,3 +174,5 @@ In **InvoSync**, it’s used inside `backend/ocr.py` to process invoice and purc
  
 
 ---
+
+If you find this project useful, please consider giving it a ⭐ on GitHub!
