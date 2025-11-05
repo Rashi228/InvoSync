@@ -15,6 +15,13 @@ InvoSync is an AI-powered invoice and purchase order reconciliation system that 
 
 ---
 
+## Project Demo
+
+[![Watch the video](https://img.youtube.com/vi/r7-kpqDxxr4/0.jpg)](https://www.youtube.com/watch?v=r7-kpqDxxr4)
+
+
+---
+
 ## Tech Stack
 
 | Layer | Technologies |
